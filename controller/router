@@ -1,0 +1,12 @@
+const express = require("express");
+const Route = express.Router();
+const mongoose = require("mongoose");
+const db = require("../model/schema");
+
+Route.get("/", (req, res) => {
+    db.find()
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+});
+
+module.exports = Route;
