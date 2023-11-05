@@ -18,7 +18,27 @@ Route.get("/tasks", (req, res) => {
     taskSchema.find()
     .then((data) => res.json(data))
     .catch((err) => console.log(err));
-}); 
-
+});
+Route.post("/add-task", (req, res) => {
+    taskSchema.create(req.body)
+    .then((data) => res.json(data))
+    .catch((err) =>console.log(err));
+})
+Route.route("/update-task/:id")
+.get((req, res) => {
+    taskSchema.findById(req.params.id)
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+})
+.put((req, res) => {
+    taskSchema.findByIdAndUpdate(req.params.id, {$set: req.body})
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+});
+Route.delete("/delete-task/:id", (req, res) => {
+    taskSchema.findByIdAndDelete(req.params.id)
+    .then(data => res.send(data))
+    .catch(err => console.log(err));
+});
 
 module.exports = Route;
