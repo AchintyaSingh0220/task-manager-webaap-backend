@@ -1,12 +1,24 @@
 const express = require("express");
 const Route = express.Router();
 const mongoose = require("mongoose");
-const db = require("../model/schema");
+const taskSchema= require("../model/taskSchema");
+const userSchema = require("../model/userSchema");
 
-Route.get("/", (req, res) => {
-    db.find()
+Route.get("/users", (req, res) => {
+    userSchema.find()
     .then((data) => res.json(data))
     .catch((err) => console.log(err));
 });
+Route.post("/add-user", (req, res) => {
+    userSchema.create(req.body)
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+});
+Route.get("/tasks", (req, res) => {
+    taskSchema.find()
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+}); 
+
 
 module.exports = Route;

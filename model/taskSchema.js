@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const schema = new mongoose.Schema({
     userId: {type: String},
     taskName: {type: String},
@@ -9,4 +10,6 @@ const schema = new mongoose.Schema({
     collection: "tasks"
 });
 
-module.exports = mongoose.model("taskSchema", schema);
+const tasks = mongoose.connection.useDb('taskdb');
+
+module.exports = tasks.model("taskSchema", schema);

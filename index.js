@@ -6,9 +6,9 @@ const cors = require("cors");
 
 //database
 mongoose.set("strictQuery", true);
-mongoose.connect("mongodb+srv://test:12345@cluster0.4hiqep6.mongodb.net/taskdb");
+mongoose.connect("mongodb+srv://test:12345@cluster0.4hiqep6.mongodb.net");
 var db = mongoose.connection;
-db.on("open", () => {
+db.once("open", () => {
     console.log("Connected to DB");
 });
 db.on("error", () => {
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 //mount router and start listening
-app.use("/tasks", Route);
+app.use("/", Route);
 app.listen(4000, () => {
     console.log("Backend Started");
 });
