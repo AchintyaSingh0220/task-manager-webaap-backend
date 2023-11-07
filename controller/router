@@ -5,8 +5,14 @@ const taskSchema = require("../model/taskSchema");
 const userSchema = require("../model/userSchema");
 
 // Get all users
-Route.get("/users", (req, res) => {
+Route.get("/all-users", (req, res) => {
     userSchema.find()
+        .then((data) => res.json(data))
+        .catch((err) => console.log(err));
+});
+// Get user with specific userId
+Route.get("/users/:userId", (req, res) => {
+    userSchema.find({ userId: req.params.userId })
         .then((data) => res.json(data))
         .catch((err) => console.log(err));
 });
@@ -18,39 +24,6 @@ Route.post("/add-user", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-// Get all tasks
-Route.get("/tasks", (req, res) => {
-    taskSchema.find()
-        .then((data) => res.json(data))
-        .catch((err) => console.log(err));
-});
-
-// Add a new task
-Route.post("/add-task", (req, res) => {
-    taskSchema.create(req.body)
-        .then((data) => res.json(data))
-        .catch((err) => console.log(err));
-});
-
-// Get a task by ID and update it
-Route.route("/update-task/:id")
-    .get((req, res) => {
-        taskSchema.findById(req.params.id)
-            .then((data) => res.json(data))
-            .catch((err) => console.log(err));
-    })
-    .put((req, res) => {
-        taskSchema.findByIdAndUpdate(req.params.id, { $set: req.body })
-            .then((data) => res.json(data))
-            .catch((err) => console.log(err));
-    });
-
-// Delete a task by ID
-Route.delete("/delete-task/:id", (req, res) => {
-    taskSchema.findByIdAndDelete(req.params.id)
-        .then(data => res.send(data))
-        .catch(err => console.log(err));
-});
 
 // Delete a user and all their tasks
 Route.delete("/delete-user/:userId", (req, res) => {
@@ -87,6 +60,47 @@ Route.delete("/delete-user/:userId", (req, res) => {
             console.log(err);
             res.status(500).json({ message: "Error deleting user" });
         });
+});
+
+// Get all tasks
+Route.get("/all-tasks", (req, res) => {
+    taskSchema.find()
+        .then((data) => res.json(data))
+        .catch((err) => console.log(err));
+});
+
+// Get all tasks for certain user
+Route.get("/tasks/:userId", (req, res) => {
+    taskSchema.find( {userId: req.params.userId} )
+        .then((data) => res.json(data))
+        .catch((err) => console.log(err));
+})
+
+// Add a new task
+Route.post("/add-task", (req, res) => {
+    taskSchema.create(req.body)
+        .then((data) => res.json(data))
+        .catch((err) => console.log(err));
+});
+
+// Get a task by ID and update it
+Route.route("/update-task/:id")
+    .get((req, res) => {
+        taskSchema.findById(req.params.id)
+            .then((data) => res.json(data))
+            .catch((err) => console.log(err));
+    })
+    .put((req, res) => {
+        taskSchema.findByIdAndUpdate(req.params.id, { $set: req.body })
+            .then((data) => res.json(data))
+            .catch((err) => console.log(err));
+    });
+
+// Delete a task by ID
+Route.delete("/delete-task/:id", (req, res) => {
+    taskSchema.findByIdAndDelete(req.params.id)
+        .then(data => res.send(data))
+        .catch(err => console.log(err));
 });
 
 module.exports = Route;
