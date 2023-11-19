@@ -5,7 +5,8 @@ const schema = new mongoose.Schema({
     taskName: {type: String},
     date: {type: Date},
     priority: {type: Number},
-    setReminder: {type: Boolean}
+    setReminder: {type: Boolean},
+    marked: {type: Boolean}
 }, {
     collection: "tasks"
 });
