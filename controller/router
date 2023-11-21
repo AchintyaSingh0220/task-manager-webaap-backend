@@ -74,7 +74,18 @@ Route.get("/tasks/:userId", (req, res) => {
     taskSchema.find( {userId: req.params.userId} ).sort( {marked : 1, priority : -1} )
         .then((data) => res.json(data))
         .catch((err) => console.log(err));
-})
+});
+
+// Returns list of tasks pending today
+Route.get("/due-tasks/:userId", (req, res) => {
+    const currentDate = () => {
+        let yourDate = new Date();
+        return yourDate.toISOString().split('T')[0];
+    };
+    taskSchema.find( {userId: req.params.userId, date: currentDate()} )
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+});
 
 // Add a new task
 Route.post("/add-task", (req, res) => {
@@ -104,4 +115,3 @@ Route.delete("/delete-task/:id", (req, res) => {
 });
 
 module.exports = Route;
-
