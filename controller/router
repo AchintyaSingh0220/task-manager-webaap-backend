@@ -82,7 +82,7 @@ Route.get("/due-tasks/:userId", (req, res) => {
         let yourDate = new Date();
         return yourDate.toISOString().split('T')[0];
     };
-    taskSchema.find( {userId: req.params.userId, date: currentDate(), marked: false} )
+    taskSchema.find( {userId: req.params.userId, date: currentDate(), marked: false, setReminder: true} )
     .then((data) => res.json(data))
     .catch((err) => console.log(err));
 });
