@@ -71,7 +71,7 @@ Route.get("/all-tasks", (req, res) => {
 
 // Get all tasks for certain user
 Route.get("/tasks/:userId", (req, res) => {
-    taskSchema.find( {userId: req.params.userId} ).sort( {marked : 1, priority : -1} )
+    taskSchema.find( {userId: req.params.userId} ).sort( {marked : 1, priority : 1} )
         .then((data) => res.json(data))
         .catch((err) => console.log(err));
 });
